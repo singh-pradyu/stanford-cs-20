@@ -1,9 +1,10 @@
-## author: pss 01/09/2018
-
 """
 Simple exercises to get used to TensorFlow API
-You should thoroughly test your code
- 1/09/2018
+You should thoroughly test your code.
+TensorFlow's official documentation should be your best friend here
+CS20: "TensorFlow for Deep Learning Research"
+cs20.stanford.edu
+Created by Chip Huyen (chiphuyen@cs.stanford.edu)
 """
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
@@ -20,7 +21,7 @@ sess = tf.InteractiveSession()
 
 x = tf.random_uniform([])  # Empty array as shape creates a scalar.
 y = tf.random_uniform([])
-out = tf.cond(tf.greater(x, y), lambda: tf.add(x, y), lambda: tf.subtract(x, y))
+out = tf.cond(tf.greater(x, y), lambda: x + y, lambda: x - y)
 print(sess.run(out))
 
 ###############################################################################
@@ -30,10 +31,6 @@ print(sess.run(out))
 ###############################################################################
 
 # YOUR CODE
-x = tf.random_uniform([], -1, 1, tf.float32)
-y = tf.random_uniform([], -1, 1, tf.float32)
-r = tf.case({tf.less(x,y): lambda: tf.add(x, y), tf.greater(x, y): lambda: tf.subtract(x, y)}, default= lambda: tf.constant(0.0), exclusive=True)
-
 
 ###############################################################################
 # 1c: Create the tensor x of the value [[0, -2, -1], [0, 1, 2]] 
@@ -43,10 +40,6 @@ r = tf.case({tf.less(x,y): lambda: tf.add(x, y), tf.greater(x, y): lambda: tf.su
 ###############################################################################
 
 # YOUR CODE
-
-x = tf.constant([[0, -2, -1], [0, 1, 2]])
-y = tf.zeros_like(x)
-r = tf.equal(x, y)
 
 ###############################################################################
 # 1d: Create the tensor x of value 
@@ -63,16 +56,6 @@ r = tf.equal(x, y)
 
 # YOUR CODE
 
-x = tf.constant([29.05088806,  27.61298943,  31.19073486,  29.35532951,
-  30.97266006,  26.67541885,  38.08450317,  20.74983215,
- 34.94445419,  34.45999146,  29.06485367,  36.01657104,
-  27.88236427,  20.56035233,  30.20379066,  29.51215172,
-33.71149445,  28.59134293,  36.05556488,  28.66994858])
-
-idx = tf.where(x > 30)
-output = tf.gather(x, idx)
-
-
 ###############################################################################
 # 1e: Create a diagnoal 2-d tensor of size 6 x 6 with the diagonal values of 1,
 # 2, ..., 6
@@ -80,8 +63,6 @@ output = tf.gather(x, idx)
 ###############################################################################
 
 # YOUR CODE
-diag = tf.range(1,7)
-output = tf.diag(diag)
 
 ###############################################################################
 # 1f: Create a random 2-d tensor of size 10 x 10 from any distribution.
@@ -90,8 +71,6 @@ output = tf.diag(diag)
 ###############################################################################
 
 # YOUR CODE
-x = tf.random_uniform((10,10))
-output = tf.matrix_determinant(x)
 
 ###############################################################################
 # 1g: Create tensor x with value [5, 2, 3, 5, 10, 6, 2, 3, 4, 2, 1, 1, 0, 9].
@@ -100,9 +79,6 @@ output = tf.matrix_determinant(x)
 ###############################################################################
 
 # YOUR CODE
-x = tf.constant([5, 2, 3, 5, 10, 6, 2, 3, 4, 2, 1, 1, 0, 9])
-output, idx = tf.unique(x)
-
 
 ###############################################################################
 # 1h: Create two tensors x and y of shape 300 from any normal distribution,
@@ -115,9 +91,3 @@ output, idx = tf.unique(x)
 ###############################################################################
 
 # YOUR CODE
-x = tf.random_uniform([300])
-y = tf.random_uniform([300])
-avg = tf.reduce_mean(x -y)
-def f1(): return tf.reduce_mean(tf.square(x-y))
-def f2(): return tf.reduce_sum(tf.abs(x-y))
-output = tf.cond(avg < 0, f1, f2)
